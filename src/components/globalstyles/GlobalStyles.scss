@@ -4,8 +4,10 @@
     --primary: #fe2c55;
 }
 
-*{
+* {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 html {
@@ -20,6 +22,5 @@ body {
 }
 
 h1 {
-        color: #29191c;
-        font-weight:bolder;
+    color: #29191c;
 }
