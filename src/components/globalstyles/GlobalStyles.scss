@@ -1,0 +1,25 @@
+@import url('normalize.css');
+@import url('http://fonts.cdnfonts.com/css/segoe-ui-4');
+:root {
+    --primary: #fe2c55;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    text-rendering: optimizeSpeed;
+}
+
+h1 {
+        color: #29191c;
+        font-weight:bolder;
+}
