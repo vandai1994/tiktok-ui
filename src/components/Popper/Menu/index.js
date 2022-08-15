@@ -18,7 +18,9 @@ function Menu({ children, items = [] }) {
             placement="bottom-end"
             render={(attrs) => (
                 <div className={cx('menu-list')} tabIndex="-1" {...attrs}>
-                    <PopperWrapper className={cx('menu-popper')}>{renderItems()}</PopperWrapper>
+                    <PopperWrapper className={cx('menu-popper')}>
+                        {renderItems()}
+                    </PopperWrapper>
                 </div>
             )}
         >
