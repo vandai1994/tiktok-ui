@@ -10,10 +10,17 @@ import {
     faMagnifyingGlass,
     faKeyboard,
     faSpinner,
-    faSignIn,
+    faCloudUpload,
+    faMessage,
+    faUser,
+    faCoins,
+    faStore,
+    faGear,
+    faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
-import Tippy from '@tippyjs/react/headless';
-
+import HeadlessTippy from '@tippyjs/react/headless';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 import Button from '~/components/Button';
 import { useEffect, useState } from 'react';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
@@ -22,7 +29,7 @@ import Menu from '~/components/Popper/Menu';
 
 const cx = classNames.bind(styles);
 
-const MENU_ITEM = [
+const MENU_ITEMS = [
     {
         icon: <FontAwesomeIcon icon={faEarthAsia} />,
         title: 'Tiếng việt',
@@ -47,7 +54,7 @@ const MENU_ITEM = [
         title: 'Feedback and help',
         to: '/feedback',
     },
-
+    
     {
         icon: <FontAwesomeIcon icon={faKeyboard} />,
         title: 'Keyboard shortcut',
@@ -55,6 +62,7 @@ const MENU_ITEM = [
 ];
 
 function Header() {
+    const currentUser = true;
     const [searchResult, setSearchResult] = useState([]);
     useEffect(() => {
         setTimeout(() => {
@@ -62,23 +70,53 @@ function Header() {
         }, 0);
     }, []);
 
- // Handle logic
- const handleMenuChange = (menuItem) => {
-    switch (menuItem.type) {
-        case 'language':
-            console.log(menuItem)
-            // Handle change language
-            break;
-        default:
-    }
-};
+    // Handle logic
+    const handleMenuChange = (menuItem) => {
+        switch (menuItem.type) {
+            case 'language':
+                console.log(menuItem);
+                // Handle change language
+                break;
+            default:
+        }
+    };
+    
+    const userMenu = [
+        {
+            icon: <FontAwesomeIcon icon = {faUser}/>,
+            to : '/Profile' ,
+            title: 'View Profile',
+        },
+        {
+            icon: <FontAwesomeIcon icon ={faCoins} />,
+            to : '/Coin' ,
+            title: 'Get coin',
+        },
+        {
+            icon: <FontAwesomeIcon icon ={faStore}/>,
+            to : '/Ads' ,
+            title: 'Business Suit',
+        },
+        {
+            icon: <FontAwesomeIcon icon ={faGear}/>,
+            to : '/Setting' ,
+            title: 'Setting',
+        },
+        ...MENU_ITEMS,
+        {
+            icon: <FontAwesomeIcon icon ={faRightFromBracket}/>,
+            to : '/' ,
+            title: 'Log out',
+            separate:true,
+        },
+    ]
 
 
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <img src={images.logo} alt="Dienlanhtamduong" />
-                <Tippy
+                <HeadlessTippy
                     interactive
                     visible={searchResult.length > 0}
                     render={(attrs) => (
@@ -117,27 +155,36 @@ function Header() {
                             <FontAwesomeIcon icon={faMagnifyingGlass} />{' '}
                         </button>
                     </div>
-                </Tippy>
-                <div className={cx('actions')}>
-                    <Button text className={cx('red-btn')}>
-                        Upload
-                    </Button>
-                    <Button
-                        primary
-                        leftIcon={<FontAwesomeIcon icon={faSignIn} />}
-                    >
-                        Login
-                    </Button>
-                </div>
+                </HeadlessTippy>
 
-                <Menu
-                 items={MENU_ITEM}
-                 onChange = {handleMenuChange}
-                 >
-                    <button className={cx('more-btn')} >
-                        <FontAwesomeIcon icon={faEllipsisVertical} />
-                    </button>
-                </Menu>
+                <div className={cx('actions')}>
+                    {currentUser ? (
+                        <Tippy content = 'Message' placement='bottom'  delay={[0,200]}>
+                            <button className={cx('action-btn')}>
+                                <FontAwesomeIcon icon={faMessage} />
+                            </button>
+                        </Tippy>
+                    ) : (
+                        <>
+                            <Button text>Upload</Button>
+                            <Button primary>Login</Button>
+                        </>
+                    )}
+
+                    <Menu items={currentUser? userMenu:  MENU_ITEMS} onChange={handleMenuChange}>
+                        {currentUser ? (
+                            <img
+                                src="https://p16-sign-va.tiktokcdn.com/tos-useast2a-avt-0068-giso/b46622f43a183c58b8389f3cdfa5816e~c5_100x100.jpeg?x-expires=1660748400&x-signature=W6NQeBh6Cxnqv8wxswuK4t5wvp4%3D"
+                                className={cx('user-avatar')}
+                                alt="Nguyen Van A"
+                            />
+                        ) : (
+                            <button className={cx('more-btn')}>
+                                <FontAwesomeIcon icon={faEllipsisVertical} />
+                            </button>
+                        )}
+                    </Menu>
+                </div>
             </div>
         </header>
     );
