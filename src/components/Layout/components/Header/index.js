@@ -10,8 +10,6 @@ import {
     faMagnifyingGlass,
     faKeyboard,
     faSpinner,
-    faCloudUpload,
-    faMessage,
     faUser,
     faCoins,
     faStore,
