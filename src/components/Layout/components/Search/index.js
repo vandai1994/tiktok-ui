@@ -6,6 +6,7 @@ import { Wrapper as PopperWrapper } from '~/components/Popper';
 import AccountItem from '~/components/AccountItem';
 import { SearchIcon } from '~/components/Icon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDebounce } from '~/asset/hooks';
 import classNames from 'classnames/bind';
 import styles from './Search.module.scss';
 
@@ -16,6 +17,8 @@ function Search() {
     const [searchResult, setSearchResult] = useState([]);
     const [showResult, setShowResult] = useState(true);
     const [loading, setLoading] = useState(false);
+
+    const debounce = useDebounce(searchValue, 500)
     
     const inputRef = useRef();
     const handleClear = () => {
@@ -26,14 +29,14 @@ function Search() {
 
 
     useEffect(() => {
-        if(!searchValue.trim()) { // loại bỏ dấu khoảng trống
+        if(!debounce.trim()) { // loại bỏ dấu khoảng trống
             setSearchResult([])
             return;
         }
         setLoading(true)
 
         fetch(
-            `https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchValue)}&type=less`, // mã hóa k cho ký tự đặc biệt
+            `https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debounce)}&type=less`, // mã hóa k cho ký tự đặc biệt
         )
             .then((res) => res.json())
             .then((res) => {
@@ -43,7 +46,7 @@ function Search() {
             .catch (() => {
                 setLoading(false)
             });
-    }, [searchValue]);
+    }, [debounce]);
     const handleHideResult = () => {
         setShowResult(false);
     };
