@@ -2,13 +2,13 @@ import { useState, useEffect, useRef } from 'react';
 import { faCircleXmark, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
-import AccountItem from '~/components/AccountItem';
 import { SearchIcon } from '~/components/Icon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDebounce} from '~/asset/hooks';
 import * as searchServices  from '~/service/searchService'
 import classNames from 'classnames/bind';
 import styles from './Search.module.scss';
+import HandleSearchResult from './HandleSearchResult';
 
 const cx = classNames.bind(styles);
 
@@ -56,7 +56,9 @@ function Search() {
         }
     }
 
-
+    
+        
+    
 
     return (
         <div>
@@ -67,9 +69,7 @@ function Search() {
                     <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                         <PopperWrapper>
                             <h4 className={cx('search-title')}>Accounts</h4>
-                            {searchResult.map((result) => (
-                                <AccountItem key={result.id} data={result} />
-                            ))}
+                            <HandleSearchResult value = {searchResult}/>
                         </PopperWrapper>
                     </div>
                 )}
